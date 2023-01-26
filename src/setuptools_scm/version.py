@@ -541,7 +541,10 @@ def _call_version_scheme(
     for scheme in _iter_version_schemes(entypoint, given_value):
         result = scheme(version)
         if result is not None:
-            return result
+            additional_branch_suffix = ""
+            if entypoint == "setuptools_scm.local_scheme" and result != "":
+                additional_branch_suffix = f".b{version.branch}"
+            return result + additional_branch_suffix
     return default
 
 
@@ -560,4 +563,5 @@ def format_version(version: ScmVersion, **config: Any) -> str:
         version, "setuptools_scm.local_scheme", config["local_scheme"], "+unknown"
     )
     trace("local_version", local_version)
+
     return main_version + local_version
