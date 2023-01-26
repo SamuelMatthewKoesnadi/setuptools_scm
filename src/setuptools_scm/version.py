@@ -543,7 +543,8 @@ def _call_version_scheme(
         if result is not None:
             additional_branch_suffix = ""
             if entypoint == "setuptools_scm.local_scheme" and result != "":
-                additional_branch_suffix = f".b{version.branch}"
+                version = re.sub('[^0-9a-zA-Z]+', '', version.branch)
+                additional_branch_suffix = f".b{version}"
             return result + additional_branch_suffix
     return default
 
