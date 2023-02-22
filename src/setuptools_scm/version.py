@@ -474,7 +474,9 @@ def get_local_dirty_tag(version: ScmVersion) -> str:
     return version.format_choice("", "+dirty")
 
 
-def get_no_local_node(_: Any) -> str:
+def get_no_local_node(version: ScmVersion) -> str:
+    if version.distance > 0:
+        return _format_local_with_time(version, time_format="%Y%m%d")
     return ""
 
 
